@@ -10,10 +10,16 @@ export const CreateSpeaker = async(req,res,next)=>{
         console.log(savedSpeaker)
     }
     catch(err){
-        next(err);
+        console.log(err);
     }
 }
 
-export const GetSpeaker = async(req,res,next)=>{
-    
+export const GetSpeaker = async(req,res,next)=>{ 
+    try{
+        const speakers = await Speaker.findById(req.params.id);
+        res.status(200).json(speakers);
+    }
+    catch(err){
+        console.log(err);
+    }
 }

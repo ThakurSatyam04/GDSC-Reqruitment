@@ -4,7 +4,7 @@ import { useState,useEffect } from 'react'
 import { APIURL } from '../env'
 import axios from 'axios'
 import EventNavbar from '../components/EventNavbar'
-import SpeakerCard from '../components/speaker_card'
+import SpeakerCard from '../components/Speaker_Cards'
 import google from '../Assests/Sponsors/google.png'
 import zapp from '../Assests/Sponsors/zapp.png'
 import nike from '../Assests/Sponsors/nike.png'
@@ -28,7 +28,7 @@ const EventDetails = ({loggedIn,userDetails}) => {
       }
 
       const handleAddSpeakers=()=>{
-        navigate('/speakerForm')
+        navigate(`/speakerForm/${_id}`)
       }
 
       useEffect(()=>{
@@ -59,18 +59,25 @@ const EventDetails = ({loggedIn,userDetails}) => {
           <p className='font-bold text-2xl'>Just join us at the event on {EventDetail.date}</p>
         </div>
         <div className='w-full flex flex-col items-center justify-center bg-gray-100 p-6 shadow-md'>
-          <div className="text-center w-full md:text-left flex items-center justify-end" > 
-            <button onClick={handleAddSpeakers} className='bg-white p-0.5 h-fit rounded-md hover:brightness-90'>+ Add Speakers</button>
-          </div>
+          {
+            userDetails.userType === 'Admin'?(
+              <div className="text-center w-full md:text-left flex items-center justify-end" > 
+              <button onClick={handleAddSpeakers} className='bg-white p-0.5 h-fit rounded-md hover:brightness-90'>+ Add Speakers</button>
+            </div>
+            ):(
+              null
+            )
+          }
+         
           <div>
             <h2 className='w-full text-2xl text-center font-semibold'>Our Speakers</h2>
             <p className='w-full text-sm text-center'>10+ inspiring speekers, meet the best product people</p>
             <p className='w-full text-sm text-center'>around the world and network</p>
           </div>
           <div className='w-11/12 p-10 flex flex-wrap items-center justify-center gap-5'>
-            <SpeakerCard/>
-            <SpeakerCard/>
-            <SpeakerCard/>
+            <SpeakerCard id={_id}/>
+            <SpeakerCard id={_id}/>
+            <SpeakerCard id={_id}/>
           </div>
         </div>
         {/* About Section */}

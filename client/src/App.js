@@ -39,7 +39,7 @@ function App() {
         <Route path="/eventPage" element={<EventPage loggedIn={loggedIn} userDetails={userDetails}/>}/>
         <Route path="/team" element={<TeamPage userDetails={userDetails}/>}/>
         <Route path="/eventCardForm" element={<EventCardForm/>}/>
-        <Route path="/speakerForm" element={<SpeakerForm/>}/>
+        <Route path="/speakerForm/:_id" element={<SpeakerForm/>}/>
         <Route path="/imageForm/:_id" element={<ImageForm/>}/>
         <Route path="/eventDetails/:_id" element={<EventDetails loggedIn={loggedIn} userDetails={userDetails}/>}/>
       </Routes>

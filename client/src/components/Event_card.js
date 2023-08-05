@@ -9,9 +9,9 @@ import { useEffect, useState } from 'react'
 
 const Event_card = ({title,description,date,_id}) => {
   const [imageUrl, setImageUrl] = useState('');
-  const [imageResponse,setImageResponse] = useState(false);
+  const [imageResponse,setImageResponse] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  console.log(_id)
   const handleClick=()=>{
     navigate(`/eventDetails/${_id}`)
   }
@@ -39,12 +39,14 @@ const Event_card = ({title,description,date,_id}) => {
   useEffect(() => {
     async function fetchImage() {
       try {
+        setIsLoading(true);
         const response = await axios.get(`${APIURL}/api/card/get-image-url/${_id}`);
-        setImageResponse(true)
+        // setImageResponse(true)
         setImageUrl(response.data.imageUrl);
       } catch (error) {
         console.error('Error fetching image URL:', error);
       }
+      setIsLoading(false);
     }    
     fetchImage();
   }, []);
@@ -54,16 +56,19 @@ const Event_card = ({title,description,date,_id}) => {
     <>
         <div  className='relative w-9/12 flex items-center justify-center  bg-gray-10 p-2 shadow-md rounded-md'>
           <div className='flex w-full h-[200px] gap-10 justify-center cursor-pointer' >
-            <div className=''>
+            <div className='relative'>
               {
-                imageResponse?(
-                  <img className='h-full rounded-md shadow-md p-2' src={imageUrl} alt="Loading..." />
+                isLoading?(
+                  <button className='z-10' onClick={handleImageUpload}>UploadImg</button> && <img className='h-full rounded-md shadow-md p-2' src={imageUrl} alt="Loading..." />
                 ):(
-                  <button onClick={handleImageUpload}>UploadImg</button>
+                  <button className='z-10' onClick={handleImageUpload}>UploadImg</button> && <img className='h-full rounded-md shadow-md p-2' src={imageUrl} alt="UploadImg +" />
                 )
               }
+              {/* <div className='absolute top-20'>
+                <button className='z-10' onClick={handleImageUpload}>UploadImg</button>
+              </div> */}
                 {/* <img className='h-full rounded-md shadow-md' src={img} alt="" /> */}
-                {/* {<button onClick={handleImageUpload}>UploadImg</button> && <img className='h-full rounded-md shadow-md p-2' src={imageUrl} alt="UploadImg +" />} */}
+                {/* {<button className='z-10' onClick={handleImageUpload}>UploadImg</button> && <img className='h-full rounded-md shadow-md p-2' src={imageUrl} alt="UploadImg +" />} */}
             </div>
             <div className='w-11/12 mt-2' onClick={handleClick}>
                 <h3>{title}</h3>
@@ -76,8 +81,8 @@ const Event_card = ({title,description,date,_id}) => {
           <div className='absolute bottom-2 right-2 text-2xl bg-red-500 rounded-full flex items-center justify-center border border-black'>
             <button onClick={handleDelete}><MdDeleteForever/></button>
           </div>
+          <button className='absolute bottom-2 right-12' onClick={handleImageUpload}>Edit Img</button>
         </div>
-        
     </>
   )
 }
